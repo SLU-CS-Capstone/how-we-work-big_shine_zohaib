@@ -1,10 +1,14 @@
 from graph import Graph
 
 class Maze:
-    def __init__(self, size):
+    def __init__(self, size,col=None):
         self.size = size
+        self.col = col
         self.nodes = []
-        self.graph = Graph(size*size)
+        if self.col != None:
+            self.graph = Graph(size*col)
+        else:
+            self.graph = Graph(size*size)
 
         # label the nodes from 0 to (N*N)-1
         for i in range(0, self.size):
