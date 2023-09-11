@@ -23,10 +23,13 @@ class Graph:
                 result = True
         return result
 
-    def get_spanning_tree(self, start):
+    def get_spanning_tree(self, start, seed = None):
         spanning_tree = Graph(self.num_nodes)
         stack = []
         visited = [False]*self.num_nodes
+
+        if seed:
+            random.seed(seed)
 
         visited[start] = True
         stack.append(start)
