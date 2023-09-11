@@ -1,33 +1,60 @@
 from graph import Graph
 
 class Maze:
-    def __init__(self, size):
+    def __init__(self, size,col=None):
         self.size = size
+        self.col = col
         self.nodes = []
-        self.graph = Graph(size*size)
+        if col:
+            self.graph = Graph(size*col)
+            # label the nodes from 0 to (N*N)-1
+            for i in range(0, self.size):
+                self.nodes.append([])
+                for j in range(0, self.col):
+                 self.nodes[i].append(i*self.col + j)
 
-        # label the nodes from 0 to (N*N)-1
-        for i in range(0, self.size):
-            self.nodes.append([])
-            for j in range(0, self.size):
-                self.nodes[i].append(i*self.size + j)
+             # each node in the graph is connected to UP, DOWN, LEFT, RIGHT (if they exist)
+            for i in range(0, self.size):
+                for j in range(0, self.col):
+                    node = self.nodes[i][j]
+                    if i > 0:
+                        up = self.nodes[i-1][j]
+                        self.graph.add_edge(node, up)
+                    if i < self.size-1:
+                        down = self.nodes[i+1][j]
+                        self.graph.add_edge(node, down)
+                    if j > 0:
+                        left = self.nodes[i][j-1]
+                        self.graph.add_edge(node, left)
+                    if j < self.size-1:
+                        right = self.nodes[i][j+1]
+                        self.graph.add_edge(node, right)
 
-        # each node in the graph is connected to UP, DOWN, LEFT, RIGHT (if they exist)
-        for i in range(0, self.size):
-            for j in range(0, self.size):
-                node = self.nodes[i][j]
-                if i > 0:
-                    up = self.nodes[i-1][j]
-                    self.graph.add_edge(node, up)
-                if i < self.size-1:
-                    down = self.nodes[i+1][j]
-                    self.graph.add_edge(node, down)
-                if j > 0:
-                    left = self.nodes[i][j-1]
-                    self.graph.add_edge(node, left)
-                if j < self.size-1:
-                    right = self.nodes[i][j+1]
-                    self.graph.add_edge(node, right)
+        else:
+            self.graph = Graph(size*size)
+
+            # label the nodes from 0 to (N*N)-1
+            for i in range(0, self.size):
+                self.nodes.append([])
+                for j in range(0, self.size):
+                    self.nodes[i].append(i*self.size + j)
+
+            # each node in the graph is connected to UP, DOWN, LEFT, RIGHT (if they exist)
+            for i in range(0, self.size):
+                for j in range(0, self.size):
+                    node = self.nodes[i][j]
+                    if i > 0:
+                        up = self.nodes[i-1][j]
+                        self.graph.add_edge(node, up)
+                    if i < self.size-1:
+                        down = self.nodes[i+1][j]
+                        self.graph.add_edge(node, down)
+                    if j > 0:
+                        left = self.nodes[i][j-1]
+                        self.graph.add_edge(node, left)
+                    if j < self.size-1:
+                        right = self.nodes[i][j+1]
+                        self.graph.add_edge(node, right)
     
     def generate_maze(self):
         spanning_tree = self.graph.get_spanning_tree(0)
