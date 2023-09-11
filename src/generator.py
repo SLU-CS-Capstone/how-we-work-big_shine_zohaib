@@ -1,6 +1,6 @@
 from maze import Maze
 
-
+#ZOHABIBI 
 sizeOfMaze = int(input("Please select a size for your maze: "))
 maze = Maze(sizeOfMaze)
 maze.generate_maze()
